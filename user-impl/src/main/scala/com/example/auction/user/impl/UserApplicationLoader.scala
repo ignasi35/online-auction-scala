@@ -23,7 +23,7 @@ abstract class UserApplication(context: LagomApplicationContext)
 
 class UserApplicationLoader extends LagomApplicationLoader {
   override def load(context: LagomApplicationContext) =
-    new UserApplication(context) with ConductRApplicationComponents {}
+    new UserApplication(context) with ConductRApplicationComponents
 
   override def loadDevMode(context: LagomApplicationContext) =
     new UserApplication(context) with LagomDevModeComponents

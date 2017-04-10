@@ -44,7 +44,7 @@ class ItemApplicationLoader extends LagomApplicationLoader {
     new ItemApplication(context) with LagomDevModeComponents
 
   override def load(context: LagomApplicationContext): LagomApplication =
-    new ItemApplication(context) with ConductRApplicationComponents {}
+    new ItemApplication(context) with ConductRApplicationComponents
   
   override def describeServices = List(
     readDescriptor[ItemService]

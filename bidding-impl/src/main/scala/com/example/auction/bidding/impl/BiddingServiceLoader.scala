@@ -30,7 +30,7 @@ abstract class BiddingApplication(context: LagomApplicationContext) extends Lago
 
 class BiddingApplicationLoader extends LagomApplicationLoader {
   override def load(context: LagomApplicationContext) =
-    new BiddingApplication(context) with ConductRApplicationComponents { }
+    new BiddingApplication(context) with ConductRApplicationComponents
 
   override def loadDevMode(context: LagomApplicationContext) =
     new BiddingApplication(context) with LagomDevModeComponents
