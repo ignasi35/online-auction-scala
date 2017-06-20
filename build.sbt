@@ -162,6 +162,7 @@ lazy val userImpl = (project in file("user-impl"))
     )
   )
 
+
 lazy val webGateway = (project in file("web-gateway"))
   .settings(commonSettings: _*)
   .enablePlugins(PlayScala && LagomPlay)
