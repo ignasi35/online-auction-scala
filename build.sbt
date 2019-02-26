@@ -193,7 +193,7 @@ def evictionSettings: Seq[Setting[_]] = Seq(
 def commonSettings: Seq[Setting[_]] = evictionSettings ++ Seq(
   javacOptions in Compile ++= Seq("-encoding", "UTF-8", "-source", "1.8"),
   javacOptions in(Compile, compile) ++= Seq("-Xlint:unchecked", "-Xlint:deprecation", "-parameters", "-Werror"),
-  scalacOptions ++= Seq("-feature", "-deprecation"),
+  scalacOptions ++= List("-encoding", "utf8", "-feature", "-deprecation", "-unchecked"),
 
   testOptions in Test ++= Seq(
     // Show the duration of tests
