@@ -11,7 +11,7 @@ lazy val root = (project in file("."))
 organization in ThisBuild := "com.example"
 
 // the Scala version that will be used for cross-compiled libraries
-scalaVersion in ThisBuild := "2.12.7"
+scalaVersion in ThisBuild := "2.12.8"
 
 version in ThisBuild := "1.0.0-SNAPSHOT"
 
