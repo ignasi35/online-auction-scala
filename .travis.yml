@@ -25,13 +25,6 @@ cache:
     - $HOME/.sbt
 
 before_cache:
-  - find $HOME/.ivy2/cache -name "ivydata-*.properties" -delete
+  - find $HOME/.ivy2 -name "ivydata-*.properties" -delete
   - find $HOME/.sbt -name "*.lock" -delete
 
-notifications:
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/2aa0aeda88d31fe293d4
-    on_success: change
-    on_failure: always
-    on_start: never
