@@ -2,12 +2,12 @@ package com.example.auction.transaction.impl
 
 import com.example.auction.item.api.ItemService
 import com.example.auction.transaction.api.TransactionService
+import com.lightbend.lagom.scaladsl.akka.discovery.AkkaDiscoveryComponents
 import com.lightbend.lagom.scaladsl.api.Descriptor
 import com.lightbend.lagom.scaladsl.broker.kafka.LagomKafkaClientComponents
 import com.lightbend.lagom.scaladsl.devmode.LagomDevModeComponents
 import com.lightbend.lagom.scaladsl.persistence.cassandra.CassandraPersistenceComponents
-import com.lightbend.lagom.scaladsl.server.{LagomApplication, LagomApplicationContext, LagomApplicationLoader}
-import com.lightbend.rp.servicediscovery.lagom.scaladsl.LagomServiceLocatorComponents
+import com.lightbend.lagom.scaladsl.server.{ LagomApplication, LagomApplicationContext, LagomApplicationLoader }
 import com.softwaremill.macwire._
 import play.api.libs.ws.ahc.AhcWSComponents
 
@@ -32,7 +32,7 @@ class TransactionApplicationLoader extends LagomApplicationLoader {
     new TransactionApplication(context) with LagomDevModeComponents
 
   override def load(context: LagomApplicationContext): LagomApplication =
-    new TransactionApplication(context) with LagomServiceLocatorComponents
+    new TransactionApplication(context) with AkkaDiscoveryComponents
 
   override def describeService: Option[Descriptor] = Some(readDescriptor[TransactionService])
 

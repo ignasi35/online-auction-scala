@@ -1,19 +1,19 @@
 package controllers
 
 import java.time.temporal.ChronoUnit
-import java.time.{Duration, Instant}
+import java.time.{ Duration, Instant }
 import java.util.UUID
 
 import akka.NotUsed
-import com.example.auction.item.api.{Item, ItemData, ItemService, ItemStatus}
-import com.example.auction.user.api.{User, UserService}
+import com.example.auction.item.api.{ Item, ItemData, ItemService, ItemStatus }
+import com.example.auction.user.api.{ User, UserService }
+import com.lightbend.lagom.scaladsl.akka.discovery.AkkaDiscoveryComponents
 import com.lightbend.lagom.scaladsl.api.ServiceCall
-import com.lightbend.rp.servicediscovery.lagom.scaladsl.LagomServiceLocatorComponents
 import org.mockito.Mockito
-import org.scalatestplus.play.{BaseOneAppPerTest, FakeApplicationFactory, PlaySpec}
+import org.scalatestplus.play.{ BaseOneAppPerTest, FakeApplicationFactory, PlaySpec }
 import play.api.test.Helpers._
 import play.api.test._
-import play.api.{Application, ApplicationLoader, Environment}
+import play.api.{ Application, ApplicationLoader, Environment }
 
 import scala.concurrent.Future
 
@@ -73,7 +73,7 @@ trait LagomFakeApplicationFactory extends FakeApplicationFactory {
     val environment = Environment.simple()
     val context = ApplicationLoader.Context.create(environment)
 
-    new loader.WebGateway(context) with LagomServiceLocatorComponents {
+    new loader.WebGateway(context) with AkkaDiscoveryComponents {
 
       // Mock UserService
       override lazy val userService: UserService = {

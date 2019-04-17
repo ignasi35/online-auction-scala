@@ -21,6 +21,8 @@ val scalaTest = "org.scalatest" %% "scalatest" % "3.0.5" % Test
 val scalaTestPlusPlay = "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
 val mockito = "org.mockito" % "mockito-core" % "2.23.4" % Test
 
+val akkaDiscoveryServiceLocator = "com.lightbend.lagom" %% "lagom-scaladsl-akka-discovery-service-locator" % "1.0.0"
+
 
 lazy val security = (project in file("security"))
   .settings(commonSettings: _*)
@@ -45,12 +47,13 @@ lazy val itemApi = (project in file("item-api"))
 
 lazy val itemImpl = (project in file("item-impl"))
   .settings(commonSettings: _*)
-  .enablePlugins(LagomScala, SbtReactiveAppPlugin)
+  .enablePlugins(LagomScala)
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslPersistenceCassandra,
       lagomScaladslTestKit,
       lagomScaladslKafkaBroker,
+      akkaDiscoveryServiceLocator,
       "com.datastax.cassandra" % "cassandra-driver-extras" % "3.0.0",
       macwire,
       scalaTest
@@ -71,13 +74,14 @@ lazy val biddingApi = (project in file("bidding-api"))
 
 lazy val biddingImpl = (project in file("bidding-impl"))
   .settings(commonSettings: _*)
-  .enablePlugins(LagomScala, SbtReactiveAppPlugin)
+  .enablePlugins(LagomScala)
   .dependsOn(biddingApi, itemApi)
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslPersistenceCassandra,
       lagomScaladslTestKit,
       lagomScaladslKafkaBroker,
+      akkaDiscoveryServiceLocator,
       macwire,
       scalaTest
     ),
@@ -97,13 +101,14 @@ lazy val searchApi = (project in file("search-api"))
 
 lazy val searchImpl = (project in file("search-impl"))
   .settings(commonSettings: _*)
-  .enablePlugins(LagomScala, SbtReactiveAppPlugin)
+  .enablePlugins(LagomScala)
   .dependsOn(searchApi, itemApi, biddingApi)
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslPersistenceCassandra,
       lagomScaladslKafkaClient,
       lagomScaladslTestKit,
+      akkaDiscoveryServiceLocator,
       macwire,
       scalaTest
     )
@@ -116,14 +121,13 @@ lazy val transactionApi = (project in file("transaction-api"))
     libraryDependencies ++= Seq(
       lagomScaladslApi,
       playJsonDerivedCodecs
-    ),
-    EclipseKeys.skipProject := true
+    )
   )
   .dependsOn(security)
 
 lazy val transactionImpl = (project in file("transaction-impl"))
   .settings(commonSettings: _*)
-  .enablePlugins(LagomScala, SbtReactiveAppPlugin)
+  .enablePlugins(LagomScala)
   .dependsOn(transactionApi, itemApi)
   .settings(lagomForkedTestSettings: _*)
   .settings(
@@ -131,10 +135,10 @@ lazy val transactionImpl = (project in file("transaction-impl"))
       lagomScaladslPersistenceCassandra,
       lagomScaladslKafkaClient,
       lagomScaladslTestKit,
+      akkaDiscoveryServiceLocator,
       macwire,
       scalaTest
-    ),
-    EclipseKeys.skipProject := true
+    )
   )
 
 lazy val userApi = (project in file("user-api"))
@@ -149,11 +153,12 @@ lazy val userApi = (project in file("user-api"))
 
 lazy val userImpl = (project in file("user-impl"))
   .settings(commonSettings: _*)
-  .enablePlugins(LagomScala, SbtReactiveAppPlugin)
+  .enablePlugins(LagomScala)
   .dependsOn(userApi)
   .settings(
     libraryDependencies ++= Seq(
       lagomScaladslPersistenceCassandra,
+      akkaDiscoveryServiceLocator,
       macwire,
       scalaTest
     )
@@ -161,7 +166,7 @@ lazy val userImpl = (project in file("user-impl"))
 
 lazy val webGateway = (project in file("web-gateway"))
   .settings(commonSettings: _*)
-  .enablePlugins(PlayScala, LagomPlay, SbtReactiveAppPlugin)
+  .enablePlugins(PlayScala, LagomPlay)
   .dependsOn(biddingApi, itemApi, searchApi, userApi)
   .settings(
     libraryDependencies ++= Seq(
@@ -169,15 +174,14 @@ lazy val webGateway = (project in file("web-gateway"))
       macwire,
       scalaTest,
       scalaTestPlusPlay,
+      akkaDiscoveryServiceLocator,
       mockito,
 
       "org.ocpsoft.prettytime" % "prettytime" % "4.0.2.Final",
 
       "org.webjars" % "foundation" % "6.2.3",
       "org.webjars" % "foundation-icon-fonts" % "d596a3cfb3"
-    ),
-    EclipseKeys.preTasks := Seq(compile in Compile),
-    httpIngressPaths := Seq("/")
+    )
   )
 
 def evictionSettings: Seq[Setting[_]] = Seq(
